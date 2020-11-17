@@ -1,0 +1,13 @@
+---
+memcached_service: 'memcached'
+memcached_package: 'memcached'
+memcached_user: 'memcache'
+memcached_addr: '127.0.0.1'
+memcached_port: 11211
+memcached_size_mb: 64
+memcached_maxconn: 1024
+
+memcached_verbose: 'false'
+memcached_log_file: '/var/log/memcached.log'
+memcached_pid_file: '/var/run/memcached/memcached.pid'
+memcached_cfg_file: '/etc/memcached.conf'
