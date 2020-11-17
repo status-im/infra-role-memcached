@@ -29,6 +29,6 @@
         address: '{{ memcached_addr }}'
         checks:
           - id: '{{ memcached_service }}-health'
-            name: 'Memcached Healthcheck'
-            type: 'http'
-            http: 'http://localhost:{{ memcached_port }}/'
+            name: 'Memcached'
+            type: 'tcp'
+            tcp: '{{ memcached_addr }}:{{ memcached_port }}'
