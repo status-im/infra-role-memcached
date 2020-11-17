@@ -11,3 +11,7 @@ memcached_verbose: 'false'
 memcached_log_file: '/var/log/memcached.log'
 memcached_pid_file: '/var/run/memcached/memcached.pid'
 memcached_cfg_file: '/etc/memcached.conf'
+
+memcached_consul_tags_default: ['memcached', 'cache']
+memcached_consul_tags_extra: []
+memcached_consul_tags: '{{ memcached_consul_tags_default + memcached_consul_tags_extra }}'

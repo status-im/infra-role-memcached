@@ -24,7 +24,7 @@
     consul_config_name: '{{ memcached_service }}'
     consul_services:
       - name: '{{ memcached_service }}'
-        tags: ['memcached', 'cache']
+        tags: '{{ memcached_consul_tags }}'
         port: '{{ memcached_port }}'
         address: '{{ memcached_addr }}'
         checks:
