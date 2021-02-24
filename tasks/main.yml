@@ -18,6 +18,9 @@
     state: restarted
   when: memcached_config.changed
 
+- include_tasks: memcached_exporter.yml
+  when: memcached_exporter_enabled
+
 - name: Create Consul service definition
   include_role: name=consul-service
   vars:
