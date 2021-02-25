@@ -5,9 +5,7 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
-User={{ memcached_exporter_user }}
-Group={{ memcached_exporter_group }}
-ExecStart=/usr/local/bin/memcached_exporter --memcached.address={{ memcached_addr }}:11211
+ExecStart=/usr/local/bin/memcached_exporter --memcached.address={{ memcached_addr }}:{{ memcached_port }}
 Restart=on-failure
 
 [Install]

@@ -17,9 +17,11 @@ memcached_consul_tags_extra: []
 memcached_consul_tags: '{{ memcached_consul_tags_default + memcached_consul_tags_extra }}'
 
 memcached_exporter_enabled: true
+memcached_exporter_port: 9150
 memcached_exporter_version: '0.8.0'
 memcached_exporter_release_name: 'memcached_exporter-{{ memcached_exporter_version }}.linux-amd64'
 memcached_exporter_url: 'https://github.com/prometheus/memcached_exporter/releases/download/v{{ memcached_exporter_version }}/{{ memcached_exporter_release_name }}.tar.gz'
 memcached_exporter_checksum: '0a666f41d733ebdc20cf2dc66fbb0c2899afc237002db67b7a31ff7f9f7dde3f'
-memcached_exporter_group: 'memcached_exporter'
-memcached_exporter_user: 'memcached_exporter'
+
+memcached_exporter_consul_service: 'memcached_exporter'
+memcached_exporter_consul_tags: '{{ memcached_consul_tags }} + ["memcached_exporter"]'

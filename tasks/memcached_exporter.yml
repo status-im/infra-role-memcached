@@ -1,14 +1,3 @@
-- name: Create memcached_exporter group
-  group:
-    name: '{{ memcached_exporter_group }}'
-
-- name: Create memcached_exporter user
-  user:
-    name: '{{ memcached_exporter_user }}'
-    group: '{{ memcached_exporter_group }}'
-    createhome: false
-    shell: '/usr/sbin/nologin'
-
 - name: Download memcached_exporter tarball
   get_url:
     url: '{{ memcached_exporter_url }}'
@@ -35,7 +24,22 @@
   template:
     src: 'memcached_exporter.service.j2'
     dest: '/lib/systemd/system/memcached_exporter.service'
-    owner: '{{ memcached_exporter_user }}'
-    group: '{{ memcached_exporter_group }}'
+    owner: root
+    group: root
     mode: 0644
   notify: restart memcached_exporter
+
+- name: Create Consul service definition
+  include_role: name=consul-service
+  vars:
+    consul_config_name: '{{ memcached_exporter_consul_service }}'
+    consul_services:
+      - name: '{{ memcached_exporter_consul_service }}'
+        tags: '{{ memcached_exporter_consul_tags }}'
+        port: '{{ memcached_exporter_port }}'
+        address: '{{ memcached_addr }}'
+        checks:
+          - id: '{{ memcached_exporter_consul_service }}-health'
+            name: '{{ memcached_exporter_consul_service }}'
+            type: 'tcp'
+            tcp: '{{ memcached_addr }}:{{ memcached_exporter_port }}'
