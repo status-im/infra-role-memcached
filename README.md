@@ -1,6 +1,6 @@
 # Description
 
-This role installs and configures [memcached](https://memcached.org/) and [memcached\_exporter]() services.
+This role installs and configures [memcached](https://memcached.org/) and [memcached\_exporter](https://github.com/prometheus/memcached_exporter/) services.
 
 The exporter is available on port `9150` and the prometheus metrics can be fetched via the `/metrics` http endpoint:
 
