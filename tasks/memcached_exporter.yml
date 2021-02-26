@@ -1,0 +1,42 @@
+- name: Download memcached_exporter tarball
+  get_url:
+    url: '{{ memcached_exporter_url }}'
+    dest: '/tmp/{{ memcached_exporter_release_name }}.tar.gz'
+    checksum: 'sha256:{{ memcached_exporter_checksum }}'
+    mode: 0644
+
+- name: Unpack binary from tarball
+  unarchive:
+    src: '/tmp/{{ memcached_exporter_release_name }}.tar.gz'
+    dest: '/usr/local/bin'
+    creates: '/usr/local/bin/memcached_exporter'
+    remote_src: true
+    extra_ops:
+      - '--wildcards'
+      - '--strip=1'
+      - '*/memcached_exporter'
+  notify: restart memcached_exporter
+
+- name: Copy the memcached_exporter systemd service file
+  template:
+    src: 'memcached_exporter.service.j2'
+    dest: '/lib/systemd/system/memcached_exporter.service'
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart memcached_exporter
+
+- name: Create Consul service definition
+  include_role: name=consul-service
+  vars:
+    consul_config_name: '{{ memcached_exporter_consul_service }}'
+    consul_services:
+      - name: '{{ memcached_exporter_consul_service }}'
+        tags: '{{ memcached_exporter_consul_tags }}'
+        port: '{{ memcached_exporter_port }}'
+        address: '{{ memcached_addr }}'
+        checks:
+          - id: '{{ memcached_exporter_consul_service }}-health'
+            name: '{{ memcached_exporter_consul_service }}'
+            type: 'tcp'
+            tcp: '{{ memcached_addr }}:{{ memcached_exporter_port }}'
