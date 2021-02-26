@@ -5,19 +5,16 @@
     checksum: 'sha256:{{ memcached_exporter_checksum }}'
     mode: 0644
 
-- name: Unpack tarball
+- name: Unpack binary from tarball
   unarchive:
     src: '/tmp/{{ memcached_exporter_release_name }}.tar.gz'
-    dest: '/tmp'
-    creates: '/tmp/{{ memcached_exporter_release_name }}/memcached_exporter'
+    dest: '/usr/local/bin'
+    creates: '/usr/local/bin/memcached_exporter'
     remote_src: true
-
-- name: Copy binary
-  copy:
-    src: '/tmp/{{ memcached_exporter_release_name }}/memcached_exporter'
-    dest: '/usr/local/bin/memcached_exporter'
-    remote_src: true
-    mode: 0755
+    extra_ops:
+      - '--wildcards'
+      - '--strip=1'
+      - '*/memcached_exporter'
   notify: restart memcached_exporter
 
 - name: Copy the memcached_exporter systemd service file
