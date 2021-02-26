@@ -18,7 +18,7 @@ memcached_size_mb: 64
 memcached_maxconn: 1024
 ```
 
-The installation of memcached\_exporter is optional. It is installed by default but can be disabled by setting:
+The installation of `memcached_exporter` is optional. It is installed by default but can be disabled by setting:
 
 ```yaml
 memcached_exporter_enabled: false
