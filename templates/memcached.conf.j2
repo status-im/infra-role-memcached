@@ -28,6 +28,9 @@ logfile {{ memcached_log_file }}
 # memory
 -m {{ memcached_size_mb }}
 
+# Adjusts max item size. (default: 1m, min: 1k, max: 1024m)
+-I {{ memcached_max_item_size }}
+
 # Default connection port is 11211
 -p {{ memcached_port }}
 

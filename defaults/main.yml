@@ -5,6 +5,7 @@ memcached_user: 'memcache'
 memcached_addr: '127.0.0.1'
 memcached_port: 11211
 memcached_size_mb: 64
+memcached_max_item_size: '1m'
 memcached_maxconn: 1024
 
 memcached_verbose: 'false'
