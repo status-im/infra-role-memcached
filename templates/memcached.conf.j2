@@ -46,6 +46,10 @@ logfile {{ memcached_log_file }}
 # Limit the number of simultaneous incoming connections. The daemon default is 1024
 -c {{ memcached_maxconn }}
 
+# Max requests per event, limits the requests processed per connection to prevent.
+starvation (default: 20)
+-R {{ memcached_max_reqs_per_event }}
+
 # Lock down all paged memory. Consult with the README and homepage before you do this
 # -k
 

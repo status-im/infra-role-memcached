@@ -7,6 +7,7 @@ memcached_port: 11211
 memcached_size_mb: 64
 memcached_max_item_size: '1m'
 memcached_maxconn: 1024
+memcached_max_reqs_per_event: 20
 
 memcached_verbose: 'false'
 memcached_log_file: '/var/log/memcached.log'
