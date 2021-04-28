@@ -20,24 +20,29 @@
 
 - name: Copy the memcached_exporter systemd service file
   template:
-    src: 'memcached_exporter.service.j2'
-    dest: '/lib/systemd/system/memcached_exporter.service'
+    src: 'exporter.service.j2'
+    dest: '{{ memcached_exporter_service_path }}'
     owner: root
     group: root
     mode: 0644
   notify: restart memcached_exporter
 
+- name: Restart service
+  service:
+    name: '{{ memcached_exporter_service }}'
+    state: restarted
+
 - name: Create Consul service definition
   include_role: name=consul-service
   vars:
-    consul_config_name: '{{ memcached_exporter_consul_service }}'
+    consul_config_name: '{{ memcached_exporter_service }}'
     consul_services:
-      - name: '{{ memcached_exporter_consul_service }}'
+      - name: '{{ memcached_exporter_service }}'
         tags: '{{ memcached_exporter_consul_tags }}'
         port: '{{ memcached_exporter_port }}'
         address: '{{ memcached_addr }}'
         checks:
-          - id: '{{ memcached_exporter_consul_service }}-health'
-            name: '{{ memcached_exporter_consul_service }}'
+          - id: '{{ memcached_exporter_service }}-health'
+            name: 'Memcached Exporter'
             type: 'tcp'
             tcp: '{{ memcached_addr }}:{{ memcached_exporter_port }}'
