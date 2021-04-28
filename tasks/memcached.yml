@@ -1,0 +1,30 @@
+---
+- name: Install memcached
+  apt:
+    name: '{{ memcached_package }}'
+  notify: restart memcached
+
+- name: Template configuration
+  template:
+    src: 'memcached.conf.j2'
+    dest: '{{ memcached_cfg_file }}'
+    owner: root
+    group: root
+    mode: 0644
+  register: memcached_config
+  notify: restart memcached
+
+- name: Create Consul service definition
+  include_role: name=consul-service
+  vars:
+    consul_config_name: '{{ memcached_service }}'
+    consul_services:
+      - name: '{{ memcached_service }}'
+        tags: '{{ memcached_consul_tags }}'
+        port: '{{ memcached_port }}'
+        address: '{{ memcached_addr }}'
+        checks:
+          - id: '{{ memcached_service }}-health'
+            name: 'Memcached'
+            type: 'tcp'
+            tcp: '{{ memcached_addr }}:{{ memcached_port }}'

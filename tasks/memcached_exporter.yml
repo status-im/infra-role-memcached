@@ -27,11 +27,6 @@
     mode: 0644
   notify: restart memcached_exporter
 
-- name: Restart service
-  service:
-    name: '{{ memcached_exporter_service }}'
-    state: restarted
-
 - name: Create Consul service definition
   include_role: name=consul-service
   vars:
