@@ -3,10 +3,12 @@
   systemd:
     name: '{{ memcached_service }}'
     state: 'restarted'
+    enabled: true
     daemon_reload: true
 
 - name: restart memcached_exporter
   systemd:
     name: '{{ memcached_exporter_service }}'
     state: 'restarted'
+    enabled: true
     daemon_reload: true
