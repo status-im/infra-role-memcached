@@ -35,7 +35,7 @@
       - name: '{{ memcached_exporter_service }}'
         tags: '{{ memcached_exporter_consul_tags }}'
         port: '{{ memcached_exporter_port }}'
-        address: '{{ ansible_local.tinc.vpn_ip }}'
+        address: '{{ ansible_local.wireguard.vpn_ip }}'
         checks:
           - id: '{{ memcached_exporter_service }}-health'
             name: 'Memcached Exporter'
