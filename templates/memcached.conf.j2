@@ -50,6 +50,9 @@ logfile {{ memcached_log_file }}
 starvation (default: 20)
 -R {{ memcached_max_reqs_per_event }}
 
+# Set the backlog queue limit (default: 1024)
+-b {{ memcached_listen_backlog }}
+
 # Lock down all paged memory. Consult with the README and homepage before you do this
 # -k
 
